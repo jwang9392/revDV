@@ -13,18 +13,16 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "./dist/index.html"));
 });
 
-app.get("/test", (request, response) => {
-  // make api call using fetch
-  fetch(
-    `https://data.cityofnewyork.us/resource/yjxr-fw8i.json?$query=SELECT borough, fullval WHERE zip = 10004 LIMIT 50000`
-  )
+app.get("/NYODQ/:zip", (request, response) => {
+  const url = `https://data.cityofnewyork.us/resource/yjxr-fw8i.json?$query=SELECT * WHERE zip = ${request.params.zip} LIMIT 50000`
+  fetch(url)
     .then(response => {
       return response.text();
     })
     .then(body => {
       let results = JSON.parse(body);
-      console.log(results); // logs to server
-      response.send(results); // sends to frontend
+      console.log(results);
+      response.send(results);
     });
 });
 

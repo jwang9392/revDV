@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCyogccI39OltLImbOD6j8pLXU3XN7BsAk&callback=initMap" type="text/javascript"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCyogccI39OltLImbOD6j8pLXU3XN7BsAk" type="text/javascript"></script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
@@ -9,8 +9,31 @@
     <title>Document</title>
   </head>
 
+  <style type="text/css">
+    html {
+      height: 100%
+    }
+  
+    body {
+      height: 100%;
+      margin: 0;
+    }
+
+    .header-title {
+      margin: 0;
+    }
+  
+    #map {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      z-index: -2;
+    }
+  </style>
+
   <body>
-    <div id="app"></div>
     <script src="./main.js"></script>
+    <div id="app"></div>
+    <div id="map"></div>
   </body>
 </html>

@@ -2,8 +2,8 @@ import "./styles/index.scss";
 
 
 window.addEventListener("DOMContentLoaded", () => {
-  const title = document.createElement("div");
-  title.classList.add("test-title");
-  title.innerHTML = `<h2>Hello ??? World!</h2>`;
+  const title = document.createElement("h1");
+  title.classList.add("header-title");
+  title.innerHTML = `revDV`;
   document.body.append(title);
 });
