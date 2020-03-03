@@ -11,12 +11,16 @@
   ],
   "scripts": {
     "start": "webpack-dev-server --config webpack.dev.js",
+    "server": "node server.js",
     "webpack:watch": "webpack --watch --config webpack.dev.js",
     "webpack:build": "webpack --config webpack.prod.js  --optimize-minimize"
   },
   "author": "mrcjbradley",
   "license": "ISC",
-  "dependencies": {},
+  "dependencies": {
+    "axios": "^0.19.2",
+    "dotenv": "^8.2.0"
+  },
   "devDependencies": {
     "@babel/core": "^7.6.4",
     "@babel/plugin-proposal-optional-chaining": "^7.7.5",
@@ -24,10 +28,13 @@
     "autoprefixer": "^9.6.4",
     "babel-loader": "^8.0.6",
     "css-loader": "^3.2.0",
+    "express": "^4.17.1",
     "fibers": "^4.0.1",
     "file-loader": "^5.0.2",
     "mini-css-extract-plugin": "^0.8.0",
+    "node-fetch": "^2.6.0",
     "node-sass": "^4.13.1",
+    "nodemon": "^2.0.2",
     "postcss-loader": "^3.0.0",
     "sass": "^1.23.0",
     "sass-loader": "^8.0.0",
