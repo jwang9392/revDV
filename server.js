@@ -17,6 +17,7 @@ app.get("/", (req, res) => {
 const JS_SCRIPTS = path.join(__dirname, '/src/scripts')
 app.use(express.static(JS_SCRIPTS))
 
+
 app.get("/NYODQ/:zip", (request, response) => {
   const url = `https://data.cityofnewyork.us/resource/yjxr-fw8i.json?$query=SELECT * WHERE zip = ${request.params.zip} LIMIT 10`
   fetch(url, { headers: {

@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="./reset.css" />
     <link rel="stylesheet" href="./main.css" />
     <script src="https://d3js.org/d3.v5.js"></script>
     <title>Document</title>
@@ -12,9 +13,17 @@
   
   <body>
     <script src="./main.js"></script>
-    <h1>revDV</h1>
-    
+    <h1 class="app-title" >revDV</h1>
+    <div class="dropdown-container"></div>
+      <div class="boro-selector">
+        <svg id="dropdownSVG" width="100%" height="1000"></svg>
+      </div>
+      <div class="input-container">
+        <p> Selected Value gets populated in the input box in "changeHandler" </p>
+        <input type="text" id="selectedInput">
+      </div>
+    </div>
 
-    <script type="module" src="sidebar.js"></script>
+    <script type="module" src="dropdown.js"></script>
   </body>
 </html>
