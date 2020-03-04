@@ -10,10 +10,9 @@
     "not dead"
   ],
   "scripts": {
-    "start": "webpack-dev-server --config webpack.dev.js",
     "server": "node server.js",
-    "webpack:watch": "webpack --watch --config webpack.dev.js",
-    "webpack:build": "webpack --config webpack.prod.js  --optimize-minimize"
+    "watch": "webpack --watch --config webpack.dev.js",
+    "build": "webpack --config webpack.prod.js  --optimize-minimize"
   },
   "author": "mrcjbradley",
   "license": "ISC",

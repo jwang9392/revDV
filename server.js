@@ -14,8 +14,10 @@ app.get("/", (req, res) => {
 });
 
 app.get("/NYODQ/:zip", (request, response) => {
-  const url = `https://data.cityofnewyork.us/resource/yjxr-fw8i.json?$query=SELECT * WHERE zip = ${request.params.zip} LIMIT 50000`
-  fetch(url)
+  const url = `https://data.cityofnewyork.us/resource/yjxr-fw8i.json?$query=SELECT * WHERE zip = ${request.params.zip} LIMIT 10`
+  fetch(url, { headers: {
+    "X-App-Token": process.env.APP_TOKEN
+  }})
     .then(response => {
       return response.text();
     })
