@@ -1,11 +1,19 @@
 import "./styles/index.scss";
-import {fetchData} from './scripts/fetchData';
-import locations from './util/locations'
+import {svgDropdown} from "./scripts/dropdown";
+import {chart} from "./scripts/pie";
+import {locations} from './scripts/util'
 
 window.addEventListener("DOMContentLoaded", () => {
-  // const title = document.createElement("h1");
-  // title.classList.add("header-title");
-  // title.innerHTML = `revDV`;
-  // document.body.append(title);
-  // fetchData(10001)
+  d3.select(".boro-selector")
+    .append("svg")
+    .attr("id", "dropdownSVG")
+    .attr("height", 500)
+  const zips = locations.Manhattan["Chelsea and Clinton"];
+  svgDropdown(zips);
+
+  d3.select(".pie-container")
+    .append("svg")
+    .attr("id", "pieSVG")
+    .attr("height", 900)
+    .attr("width", 900)
 });

@@ -1,62 +1,36 @@
-// import locations from "../util/locations";
+import { fetchData } from "./api";
+import {dataParse} from "./util";
+import {chart} from "./pie";
 
-const boroughs = [{
-  label: "Manhattan", 
-}, {
-  label: "Bronx",
-}, {
-  label: "Brooklyn",
-}, {
-  label: "Queens",
-}, {
-  label: "Staten Island"
-}]
-
-var svgDD = d3.select("#dropdownSVG");
-
-const config = {
-  width: 200,
-  container: svgDD,
-  boroughs,
-  fontSize: 20,
-  color: "#333",
-  fontFamily: "calibri",
-  x: 20,
-  y: 45,
-  changeHandler: function (option) {
-    // "this" refers to the option group
-    // Change handler code goes here
-    document.getElementById("selectedInput").value = option.label;
-  }
-};
-
-const svgDropdown = options => {
-  
-  const defaultOptions = {
-    width: 200,
-    boroughs: [],
-    fontSize: 20,
-    color: "#333",
-    fontFamily: "sans-serif",
-    x: 0,
-    y: 0,
-    changeHandler: function () { return null; }
-  };
-
-  options = {
-    ...defaultOptions,
-    ...options
-  };
-
-  options.optionHeight = options.fontSize * 2;
-  options.height = options.fontSize + 8;
+export const svgDropdown = (locality) => {
+  var svgDD = d3.select("#dropdownSVG");
+  const options = {};
+  options.locality = locality;
+  options.container = svgDD;
+  options.width = 200;
+  options.fontSize = 20;
+  options.color = "#333";
+  options.fontFamily = "calibri";
+  options.x = 0;
+  options.y= 0;
+  options.optionHeight= 40;
+  options.height= 28;
+  options.width= 200;
+  options.hoverColor= "#0c56f5";
+  options.hoverTextColor= "#fff";
+  options.backgroundColor= "#fff";
   options.padding = 5;
-  options.hoverColor = "#0c56f5";
-  options.hoverTextColor = "#fff";
-  options.bgColor = "#fff";
-  options.width = options.width - 2;
+  options.changeHandler = selection => {
+    // document.getElementById("selectedInput").value = option;
+    // console.log(selection);
+    // return (fetchData(selection));
+    fetchData(selection).then(data => {
+      let parsed = dataParse(data);
+      chart(parsed);
+    });
+  };
 
-  const g = options.container
+  const g = svgDD
     .append("svg")
     .attr("x", 0)
     .attr("y", 0)
@@ -65,12 +39,7 @@ const svgDropdown = options => {
     .attr("transform", "translate(1,1)")
     .attr("font-family", options.fontFamily);
 
-  let selectedOption =
-    options.boroughs.length === 0 ? {
-      label: "",
-      value: ""
-    } :
-      options.boroughs[0];
+  let selectedOption = options.locality[0];
 
   const selectField = g.append("g");
 
@@ -79,13 +48,13 @@ const svgDropdown = options => {
     .attr("width", options.width)
     .attr("height", options.height)
     .attr("class", "option select-field")
-    .attr("fill", options.bgColor)
+    .attr("fill", options.backgroundColor)
     .style("stroke", "#a0a0a0")
     .style("stroke-width", "1");
 
   const activeText = selectField
     .append("text")
-    .text(selectedOption.label)
+    .text(selectedOption)
     .attr("x", options.padding)
     .attr("y", options.height / 2 + options.fontSize / 3)
     .attr("font-size", options.fontSize)
@@ -117,7 +86,7 @@ const svgDropdown = options => {
   // Rendering options group
   const optionEnter = optionGroup
     .selectAll("g")
-    .data(options.boroughs)
+    .data(options.locality)
     .enter()
     .append("g")
     .on("click", handleOptionClick);
@@ -146,15 +115,14 @@ const svgDropdown = options => {
           options.width,
           options.optionHeight
         ];
-      } else if (i === options.boroughs.length - 1) {
+      } else if (i === options.locality.length - 1) {
         stroke = [0, options.width, options.optionHeight * 2 + options.width];
       }
       return stroke.join(" ");
     })
     .style("stroke-width", 1)
-    .style("fill", options.bgColor);
+    .style("fill", options.backgroundColor);
 
-  // Rendering option text
   optionEnter
     .append("text")
     .attr("x", options.padding)
@@ -166,13 +134,11 @@ const svgDropdown = options => {
       );
     })
     .text(function (d) {
-      return d.label;
+      return d;
     })
     .attr("font-size", options.fontSize)
     .attr("fill", options.color)
-    // .each(wrap);
 
-  // Rendering option surface to take care of events
   optionEnter
     .append("rect")
     .attr("width", options.width)
@@ -184,7 +150,6 @@ const svgDropdown = options => {
     .on("mouseover", handleMouseOver)
     .on("mouseout", handleMouseOut);
 
-  //once the textLength gets calculated, change opacity to 1 and display to none
   optionGroup.attr("display", "none").attr("opacity", 1);
 
   d3.select("body").on("click", function () {
@@ -204,7 +169,7 @@ const svgDropdown = options => {
   function handleMouseOut() {
     d3.select(d3.event.target.parentNode)
       .select(".option")
-      .style("fill", options.bgColor);
+      .style("fill", options.backgroundColor);
 
     d3.select(d3.event.target.parentNode)
       .select("text")
@@ -214,8 +179,8 @@ const svgDropdown = options => {
   function handleOptionClick(d) {
     d3.event.stopPropagation();
     selectedOption = d;
-    activeText.text(selectedOption.label)
-    typeof options.changeHandler === 'function' && options.changeHandler.call(this, d);
+    activeText.text(selectedOption)
+    options.changeHandler.call(this, d);
     optionGroup.attr("display", "none");
   }
 
@@ -224,6 +189,5 @@ const svgDropdown = options => {
     const visibility = optionGroup.attr("display") === "block" ? "none" : "block";
     optionGroup.attr("display", visibility);
   }
-}
 
-svgDropdown(config);
+}
