@@ -9,7 +9,12 @@
     "maintained node versions",
     "not dead"
   ],
+  "engines": {
+    "node": "12.10.0",
+    "npm": "6.10.3"
+  },
   "scripts": {
+    "postinstall": "webpack",
     "server": "node server.js",
     "watch": "webpack --watch --config webpack.dev.js",
     "wpdb": "webpack --display-error-details",
