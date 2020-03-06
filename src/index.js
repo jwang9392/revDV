@@ -11,9 +11,5 @@ window.addEventListener("DOMContentLoaded", () => {
   const zips = locations.Manhattan["Chelsea and Clinton"];
   svgDropdown(zips);
 
-  d3.select(".pie-container")
-    .append("svg")
-    .attr("id", "pieSVG")
-    .attr("height", 900)
-    .attr("width", 900)
+
 });

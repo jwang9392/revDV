@@ -1,8 +1,14 @@
 export const chart = data => {
+  d3.select(".pie-container")
+    .append("svg")
+    .attr("id", "pieSVG")
+    .attr("height", 900)
+    .attr("width", 900)
+
   const partition = data => {
     const root = d3.hierarchy(data)
       .sum(d => d.size)
-    // .sort((a, b) => b.value - a.value);
+    .sort((a, b) => b.value - a.value);
 
     return d3.partition()
       .size([2 * Math.PI, root.height + 1])
@@ -44,8 +50,8 @@ export const chart = data => {
     .style("cursor", "pointer")
     .on("click", clicked);
 
-  // path.append("title")
-  //   .text(d => `${d.ancestors().map(d => d.data.name).reverse().join("/")}\n${format(d.value)}`);
+  path.append("title")
+    .text(d => `${d.ancestors().map(d => d.data.name).reverse().join("/")}\n${format(d.value)}`);
   const label = g.append("g")
     .attr("pointer-events", "none")
     .attr("text-anchor", "middle")
@@ -113,7 +119,8 @@ export const chart = data => {
     if (percentage < 0.1) {
       percentageString = "< 0.1%";
     }
-    percentage_text.text(percentageString);
+    percentage_text.text(percentageString + " " + d.value);
+    
 
 
     var sequenceArray = d.ancestors().reverse();
@@ -145,7 +152,7 @@ export const chart = data => {
         d3.select(this).on("mouseover", mouseover);
       });
 
-    percentage_text.text("");
+    percentage_text.text("");;
   }
   function arcVisible(d) {
     return d.y1 <= 2 && d.y0 >= 1 && d.x1 > d.x0;

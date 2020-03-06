@@ -25,6 +25,8 @@ export const svgDropdown = (locality) => {
     // console.log(selection);
     // return (fetchData(selection));
     fetchData(selection).then(data => {
+      d3.select("#pieSVG").remove();
+
       let parsed = dataParse(data);
       chart(parsed);
     });

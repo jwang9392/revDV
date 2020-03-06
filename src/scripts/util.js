@@ -76,21 +76,25 @@ export const dataParse = (data) => {
     ]
   };
   // total avg calc for that zip code
-  let totalCount = 0;
-  let totalVal = 0;
+
+  // COMMENT IN WHEN CREATING TOTAL AVERAGES DISPLAY *********************
+  // let totalCount = 0;
+  // let totalVal = 0;
 
   // split into 5 price brackets
-  // 10mil +, 1mil - 10mil, 500k-9.999k, 200-499k, < 200k
-  let bracket1Val = 0;
-  let bracket2Val = 0;
-  let bracket3Val = 0;
-  let bracket4Val = 0;
-  let bracket5Val = 0;
-  let bracket1Ct = 0;
-  let bracket2Ct = 0;
-  let bracket3Ct = 0;
-  let bracket4Ct = 0;
-  let bracket5Ct = 0;
+  // 1: 10mil +, 2: 1mil - 10mil, 3: 500k-9.999k, 4: 200-499k, 5: < 200k
+
+  // EACH BRACKET ASSESSED VALUES AND COUNTS FOR AVERAGE *****************
+  // let bracket1Val = 0;
+  // let bracket2Val = 0;
+  // let bracket3Val = 0;
+  // let bracket4Val = 0;
+  // let bracket5Val = 0;
+  // let bracket1Ct = 0;
+  // let bracket2Ct = 0;
+  // let bracket3Ct = 0;
+  // let bracket4Ct = 0;
+  // let bracket5Ct = 0;
 
   let bracketBldgClass = [{},{},{},{},{}];
 
@@ -98,69 +102,60 @@ export const dataParse = (data) => {
   data.forEach(propertyObj => {
     let propVal = parseInt(propertyObj.fullval);
     let bldgClass = propertyObj.bldgcl;
+    
     // total avg
-    totalVal = totalVal + propVal;
-    totalCount++;
+
+    // COMMENT IN WHEN CREATING TOTAL AVERAGES DISPLAY *********************
+    // totalVal = totalVal + propVal;
+    // totalCount++;
 
     // price brackets
     if (propVal >= 10000000) {
-      bracket1Val += propVal;
-      bracket1Ct += 1
+      // bracket1Val += propVal;
+      // bracket1Ct += 1
 
-      if (bracketBldgClass[0][bldgClass] === undefined) {
-        bracketBldgClass[0][bldgClass] = 1;
-      } else {
-        bracketBldgClass[0][bldgClass] += 1;
-      }
+      bldgClassParse(bldgClass, 0, bracketBldgClass)
     } else if (propVal < 10000000 && propVal >= 1000000) {
-      bracket2Val += propVal;
-      bracket2Ct += 1;
+      // bracket2Val += propVal;
+      // bracket2Ct += 1;
 
-      if (bracketBldgClass[1][bldgClass] === undefined) {
-        bracketBldgClass[1][bldgClass] = 1;
-      } else {
-        bracketBldgClass[1][bldgClass] += 1;
-      }
+      bldgClassParse(bldgClass, 1, bracketBldgClass)
     } else if (propVal < 1000000 && propVal >= 500000) {
-      bracket3Val += propVal;
-      bracket3Ct += 1;
+      // bracket3Val += propVal;
+      // bracket3Ct += 1;
 
-      if (bracketBldgClass[2][bldgClass] === undefined) {
-        bracketBldgClass[2][bldgClass] = 1;
-      } else {
-        bracketBldgClass[2][bldgClass] += 1;
-      }
+      bldgClassParse(bldgClass, 2, bracketBldgClass)
     } else if (propVal < 500000 && propVal >= 200000) {
-      bracket4Val += propVal;
-      bracket4Ct += 1;
+      // bracket4Val += propVal;
+      // bracket4Ct += 1;
 
-      if (bracketBldgClass[3][bldgClass] === undefined) {
-        bracketBldgClass[3][bldgClass] = 1;
-      } else {
-        bracketBldgClass[3][bldgClass] += 1;
-      }
+      bldgClassParse(bldgClass, 3, bracketBldgClass)
     } else if (propVal < 200000) {
-      bracket5Val += propVal;
-      bracket5Ct += 1;
+      // bracket5Val += propVal;
+      // bracket5Ct += 1;
 
-      if (bracketBldgClass[4][bldgClass] === undefined) {
-        bracketBldgClass[4][bldgClass] = 1;
-      } else {
-        bracketBldgClass[4][bldgClass] += 1;
-      }
+      bldgClassParse(bldgClass, 4, bracketBldgClass)
     }
   });
 
   bracketBldgClass.forEach((bracket, i) => {
-    
     for (let key in bracket) {
-      let k = key;
-      let v = bracket[k];
       
+      let v = []
+      let classCodesObj = bracket[key];
+
+      for (let classCodes in classCodesObj) {
+        v.push({
+          name: classCodes,
+          size: classCodesObj[classCodes]
+        })
+      }
+
+  
       pieTreeData.children[i].children.push(
         {
-          name: k,
-          size: v
+          name: key,
+          children: v
         }
       )
     }
@@ -170,14 +165,29 @@ export const dataParse = (data) => {
   // return (totalVal / totalCount);
 }
 
-export const valueAverage = (data) => {
-  let count = 0;
-  let val = 0;
+const bldgClassParse = (bldgClass, i, bldgParseObj) => {
+  let classType = bldgClass.split("")[0];
 
-  data.forEach(element => {
-    val += parseInt(element.fullval);
-    count++;
-  });
+  if (bldgParseObj[i][classType] === undefined) {
+    let classObj = {};
+    classObj[bldgClass] = 1;
 
-  return (val / count);
+    bldgParseObj[i][classType] = classObj;
+  } else if (bldgParseObj[i][classType] && bldgParseObj[i][classType][bldgClass]) {
+    bldgParseObj[i][classType][bldgClass] += 1;
+  } else {
+    bldgParseObj[i][classType][bldgClass] = 1;
+  }
 }
+
+// export const valueAverage = (data) => {
+//   let count = 0;
+//   let val = 0;
+
+//   data.forEach(element => {
+//     val += parseInt(element.fullval);
+//     count++;
+//   });
+
+//   return (val / count);
+// }
