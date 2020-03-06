@@ -14,10 +14,11 @@
     "npm": "6.10.3"
   },
   "scripts": {
-    "postinstall": "webpack --config webpack.prod.js  --optimize-minimize",
+    "postinstall": "server",
     "server": "node server.js",
     "watch": "webpack --watch --config webpack.dev.js",
-    "wpdb": "webpack --display-error-details"
+    "wpdb": "webpack --display-error-details",
+    "build": "webpack --config webpack.prod.js  --optimize-minimize"
   },
   "author": "mrcjbradley",
   "license": "ISC",
