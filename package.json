@@ -14,7 +14,7 @@
     "npm": "6.10.3"
   },
   "scripts": {
-    "postinstall": "server",
+    "postinstall": "webpack",
     "server": "node server.js",
     "watch": "webpack --watch --config webpack.dev.js",
     "wpdb": "webpack --display-error-details",
