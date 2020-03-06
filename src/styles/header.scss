@@ -3,5 +3,11 @@ h1 {
 }
 
 .body-content {
-  display: flex;
+  height: 92vh;
+  width: 100%;
+  position: relative;
+}
+
+.body-content div {
+  position: absolute;
 }

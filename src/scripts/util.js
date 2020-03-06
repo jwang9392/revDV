@@ -180,14 +180,3 @@ const bldgClassParse = (bldgClass, i, bldgParseObj) => {
   }
 }
 
-// export const valueAverage = (data) => {
-//   let count = 0;
-//   let val = 0;
-
-//   data.forEach(element => {
-//     val += parseInt(element.fullval);
-//     count++;
-//   });
-
-//   return (val / count);
-// }

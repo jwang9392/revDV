@@ -2,8 +2,8 @@ export const chart = data => {
   d3.select(".pie-container")
     .append("svg")
     .attr("id", "pieSVG")
-    .attr("height", 900)
-    .attr("width", 900)
+    .attr("height", window.innerHeight)
+    .attr("width", window.innerWidth)
 
   const partition = data => {
     const root = d3.hierarchy(data)

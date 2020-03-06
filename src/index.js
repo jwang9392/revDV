@@ -1,9 +1,10 @@
 import "./styles/index.scss";
+import {initMap} from "./scripts/map";
 import {svgDropdown} from "./scripts/dropdown";
-import {chart} from "./scripts/pie";
 import {locations} from './scripts/util'
 
 window.addEventListener("DOMContentLoaded", () => {
+  initMap();
   d3.select(".boro-selector")
     .append("svg")
     .attr("id", "dropdownSVG")

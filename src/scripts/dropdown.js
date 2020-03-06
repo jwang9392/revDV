@@ -14,16 +14,13 @@ export const svgDropdown = (locality) => {
   options.x = 0;
   options.y= 0;
   options.optionHeight= 40;
-  options.height= 28;
+  options.height= 40;
   options.width= 200;
   options.hoverColor= "#0c56f5";
   options.hoverTextColor= "#fff";
   options.backgroundColor= "#fff";
   options.padding = 5;
   options.changeHandler = selection => {
-    // document.getElementById("selectedInput").value = option;
-    // console.log(selection);
-    // return (fetchData(selection));
     fetchData(selection).then(data => {
       d3.select("#pieSVG").remove();
 
@@ -35,7 +32,7 @@ export const svgDropdown = (locality) => {
   const g = svgDD
     .append("svg")
     .attr("x", 0)
-    .attr("y", 0)
+    .attr("y", 9)
     .attr("shape-rendering", "optimizeSpeed")
     .append("g")
     .attr("transform", "translate(1,1)")
