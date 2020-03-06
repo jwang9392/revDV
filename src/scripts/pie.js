@@ -25,8 +25,8 @@ export const chart = data => {
     .endAngle(d => d.x1)
     .padAngle(d => Math.min((d.x1 - d.x0) / 2, 0.005))
     .padRadius(radius * 1.5)
-    .innerRadius(d => d.y0 * radius * 1.6)
-    .outerRadius(d => Math.max(d.y0 * radius * 1.7, d.y1 * radius * 1.7 - 1))
+    .innerRadius(d => d.y0 * radius * 1.4)
+    .outerRadius(d => Math.max(d.y0 * radius * 1.9, d.y1 * radius * 1.9 - 1))
 
   const root = partition(data);
 
@@ -177,7 +177,7 @@ export const chart = data => {
 
   function labelTransform(d) {
     const x = (d.x0 + d.x1) / 2 * 180 / Math.PI;
-    const y = (d.y0 + d.y1) / 1.2 * radius;
+    const y = (d.y0 + d.y1) / 1.15 * radius;
     return `rotate(${x - 90}) translate(${y},0) rotate(${x < 180 ? 0 : 180})`;
   }
 

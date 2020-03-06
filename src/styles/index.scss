@@ -1,5 +1,105 @@
-@import "./reset.scss";
-@import "./header.scss";
-@import "./dropdown.scss";
-@import "./map.scss";
-@import "./pie.scss";
+// @import "./reset.scss";
+// @import "./header.scss";
+// @import "./dropdown.scss";
+// @import "./map.scss";
+// @import "./pie.scss";
+// --- RESET --
+
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe, 
+p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+
+
+// -- HEADER --
+
+h1 {
+  margin-left: 14px;
+}
+
+.body-content {
+
+  height: 92vh;
+  width: 100%;
+  position: relative;
+}
+
+.body-content > div {
+  position: absolute;
+}
+
+.ddp {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;;
+}
+
+// -- DROPDOWN --
+
+.dropdown-container {
+  margin-left: 8px;
+  z-index: 2;
+}
+
+body {
+  background-color: lightgray;
+}
+
+// -- PIE -- 
+
+.pie-container {
+  z-index: 3;
+  float: right;
+}
+
+// -- MAP --
+#map {
+  height: 92vh;
+  width: 100%;
+  z-index: 0;
+}
