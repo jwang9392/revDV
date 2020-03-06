@@ -3,11 +3,18 @@ h1 {
 }
 
 .body-content {
+
   height: 92vh;
   width: 100%;
   position: relative;
 }
 
-.body-content div {
+.body-content > div {
   position: absolute;
+}
+
+.ddp {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;;
 }

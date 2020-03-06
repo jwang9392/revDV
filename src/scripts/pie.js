@@ -3,7 +3,7 @@ export const chart = data => {
     .append("svg")
     .attr("id", "pieSVG")
     .attr("height", window.innerHeight)
-    .attr("width", window.innerWidth)
+    .attr("width", 400)
 
   const partition = data => {
     const root = d3.hierarchy(data)
@@ -17,26 +17,35 @@ export const chart = data => {
 
   const color = d3.scaleOrdinal().range(d3.quantize(d3.interpolateRainbow, data.children.length + 1));
   const format = d3.format(",d");
-  const width = 681;
+  // width refers to the width of the g element that contains the pie
+  const width = 290;
   const radius = width / 6;
   const arc = d3.arc()
     .startAngle(d => d.x0)
     .endAngle(d => d.x1)
     .padAngle(d => Math.min((d.x1 - d.x0) / 2, 0.005))
     .padRadius(radius * 1.5)
-    .innerRadius(d => d.y0 * radius)
-    .outerRadius(d => Math.max(d.y0 * radius, d.y1 * radius - 1))
+    .innerRadius(d => d.y0 * radius * 1.6)
+    .outerRadius(d => Math.max(d.y0 * radius * 1.7, d.y1 * radius * 1.7 - 1))
 
   const root = partition(data);
+
   root.each(d => {d.current = d});
   const svgPie = d3.select("#pieSVG")
 
-  const g = svgPie
-    .append("g")
-    .attr("transform", `translate(${width / 2},${width / 2})`)
+  const g = svgPie.append("g")
+    .attr("height", 300)
+    .attr("width", 300)
+    // .attr("transform", `translate(${window.innerWidth / 3},${width / 2})`)
     .on("mouseleave", mouseleave);
 
+  const background = g.append("circle")
+    .attr("r", "195")
+    .attr("fill", "white")
+    .attr("transform", `translate(200, 200)`)
+
   const path = g.append("g")
+    .attr("transform", `translate(200, 200)`)
     .selectAll("path")
     .data(root.descendants().slice(1))
     .enter().append("path")
@@ -51,10 +60,12 @@ export const chart = data => {
     .on("click", clicked);
 
   path.append("title")
-    .text(d => `${d.ancestors().map(d => d.data.name).reverse().join("/")}\n${format(d.value)}`);
+    .text(d => `${d.value}`);
+
   const label = g.append("g")
     .attr("pointer-events", "none")
     .attr("text-anchor", "middle")
+    .attr("transform", `translate(200, 200)`)
     .style("user-select", "none")
     .selectAll("text")
     .data(root.descendants().slice(1))
@@ -67,16 +78,18 @@ export const chart = data => {
   //percentage text
   const percentage_text = svgPie.append("text")
     .attr("id", "title")
-    .attr("x", (width / 2))
+    .attr("x", (width / 1.1))
     .attr("y", (width / 2))
     .attr("text-anchor", "middle")
-    .style("font-size", "2.5em");
+    .attr("transform", `translate(-62, 65)`)
+    .style("font-size", "2em");
 
   const parent = g.append("circle")
     .datum(root)
     .attr("r", radius)
     .attr("fill", "none")
     .attr("pointer-events", "all")
+    .attr("transform", `translate(200, 200)`)
     .on("click", clicked);
 
   function clicked(p) {
@@ -119,7 +132,7 @@ export const chart = data => {
     if (percentage < 0.1) {
       percentageString = "< 0.1%";
     }
-    percentage_text.text(percentageString + " " + d.value);
+    percentage_text.text(percentageString + " ");
     
 
 
@@ -164,7 +177,7 @@ export const chart = data => {
 
   function labelTransform(d) {
     const x = (d.x0 + d.x1) / 2 * 180 / Math.PI;
-    const y = (d.y0 + d.y1) / 2 * radius;
+    const y = (d.y0 + d.y1) / 1.2 * radius;
     return `rotate(${x - 90}) translate(${y},0) rotate(${x < 180 ? 0 : 180})`;
   }
 

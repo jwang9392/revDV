@@ -1,13 +1,13 @@
 import { fetchData } from "./api";
-import {dataParse} from "./util";
+import {dataParse, zipLatLong} from "./util";
 import {chart} from "./pie";
+import {moveToLocation} from "./map";
 
 export const svgDropdown = (locality) => {
   var svgDD = d3.select("#dropdownSVG");
   const options = {};
   options.locality = locality;
   options.container = svgDD;
-  options.width = 200;
   options.fontSize = 20;
   options.color = "#333";
   options.fontFamily = "calibri";
@@ -21,6 +21,11 @@ export const svgDropdown = (locality) => {
   options.backgroundColor= "#fff";
   options.padding = 5;
   options.changeHandler = selection => {
+    console.log(zipLatLong[selection]);
+    let lat = zipLatLong[selection][0];
+    let long = zipLatLong[selection][1];
+    moveToLocation(lat, long);
+    
     fetchData(selection).then(data => {
       d3.select("#pieSVG").remove();
 
@@ -35,7 +40,7 @@ export const svgDropdown = (locality) => {
     .attr("y", 9)
     .attr("shape-rendering", "optimizeSpeed")
     .append("g")
-    .attr("transform", "translate(1,1)")
+    // .attr("transform", "translate(1,1)")
     .attr("font-family", options.fontFamily);
 
   let selectedOption = options.locality[0];
