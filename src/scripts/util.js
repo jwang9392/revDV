@@ -107,7 +107,7 @@ export const dataParse = (data) => {
 
   let bracketBldgClass = [{},{},{},{},{}];
 
-  data = JSON.parse(data);
+  // data = JSON.parse(data);
   data.forEach(propertyObj => {
     let propVal = parseInt(propertyObj.fullval);
     let bldgClass = propertyObj.bldgcl;

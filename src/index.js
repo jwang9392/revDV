@@ -13,6 +13,6 @@ window.addEventListener("DOMContentLoaded", () => {
     .attr("width", 200)
   const zips = locations.Manhattan["Chelsea and Clinton"];
   svgDropdown(zips);
-
+debugger
 
 });
