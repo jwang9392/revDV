@@ -25,11 +25,13 @@ export const svgDropdown = (locality) => {
     let lat = zipLatLong[selection][0];
     let long = zipLatLong[selection][1];
     moveToLocation(lat, long);
-    
+debugger
     fetchData(selection).then(data => {
       d3.select("#pieSVG").remove();
-
+debugger
       let parsed = dataParse(data);
+debugger
+
       chart(parsed);
     });
   };
