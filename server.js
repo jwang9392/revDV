@@ -24,7 +24,7 @@ app.get("/NYODQ/:zip", (request, response) => {
     'Accept': '*/*',
     'X-Socrata-Host': 'data.cityofnewyork.us',
     'Content-Type': 'application/json',
-    'X-App-Token': process.env.APP_TOKEN
+    // 'X-App-Token': process.env.APP_TOKEN
   }})
     .then(response => {
       return response.text();
