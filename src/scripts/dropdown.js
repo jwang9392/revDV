@@ -1,12 +1,15 @@
 import { fetchData } from "./api";
-import {dataParse, zipLatLong} from "./util";
+import {locations, dataParse, zipLatLong} from "./util";
 import {chart} from "./pie";
 import {moveToLocation} from "./map";
 
-export const svgDropdown = (locality) => {
+export const svgDropdown = (locality, parents = []) => {
+  debugger
   var svgDD = d3.select("#dropdownSVG");
   const options = {};
+  options.locations = locations;
   options.locality = locality;
+  options.parents = parents;
   options.container = svgDD;
   options.fontSize = 20;
   options.color = "#333";
@@ -15,34 +18,59 @@ export const svgDropdown = (locality) => {
   options.y= 0;
   options.optionHeight= 40;
   options.height= 40;
-  options.width= 200;
+  options.width= 270;
   options.hoverColor= "#0c56f5";
   options.hoverTextColor= "#fff";
   options.backgroundColor= "#fff";
   options.padding = 5;
   options.changeHandler = selection => {
-    console.log(zipLatLong[selection]);
-    let lat = zipLatLong[selection][0];
-    let long = zipLatLong[selection][1];
-    moveToLocation(lat, long);
-debugger
-    fetchData(selection).then(data => {
-      d3.select("#pieSVG").remove();
-debugger
-      let parsed = dataParse(data);
-debugger
-
-      chart(parsed);
-    });
+    if (options.parents.length === 2) {
+      debugger
+      console.log(zipLatLong[selection]);
+      let lat = zipLatLong[selection][0];
+      let long = zipLatLong[selection][1];
+      moveToLocation(lat, long);
+      fetchData(selection).then(data => {
+        d3.select("#pieSVG").remove();
+        let parsed = dataParse(data);
+        chart(parsed);
+      });
+    } else {
+      console.log("here")
+      let selectionLocales;
+      if (options.parents.length === 0) {
+        let boro = selection;
+        options.parents.push(selection)
+        selectionLocales = Object.keys(options.locations[boro]);
+        svgDropdown(selectionLocales, options.parents)
+        // options.parents.pop();
+      } else if (options.parents.length === 1) {
+        let neighborhood = selection;
+        options.parents.push(selection)
+        let boro = options.parents[0];
+        selectionLocales = options.locations[boro][neighborhood];
+        svgDropdown(selectionLocales, options.parents)
+      }
+      
+    }
   };
 
+  const svgId = parentSize => {
+    if (!parentSize) {
+      return "svgBoroDD";
+    } else if (parentSize === 1) {
+      return "svgNeighborhoodDD";
+    } else if (parentSize === 2) {
+      return "svgZipDD";
+    }
+  }
   const g = svgDD
     .append("svg")
     .attr("x", 0)
     .attr("y", 9)
     .attr("shape-rendering", "optimizeSpeed")
+    .attr("id", svgId(options.parents.length))
     .append("g")
-    // .attr("transform", "translate(1,1)")
     .attr("font-family", options.fontFamily);
 
   let selectedOption = options.locality[0];
@@ -83,9 +111,20 @@ debugger
     .style("fill", "transparent")
     .on("click", handleSelectClick);
 
+  // back button
+  selectField
+    .append("rect")
+    .attr("id", "select-back-button")
+    .attr("fill", options.color)
+    .attr("width", options.height)
+    .attr("height", options.height)
+    .attr("x", options.width + 10)
+    .on("click", handleBackClick);
+
   // rendering options
   const optionGroup = g
     .append("g")
+    .attr("id", "option-selectors")
     .attr("transform", `translate(0, ${options.height})`)
     .attr("opacity", 0); //.attr("display", "none"); Issue in IE/Firefox: Unable to calculate textLength when display is none.
 
@@ -195,5 +234,16 @@ debugger
     const visibility = optionGroup.attr("display") === "block" ? "none" : "block";
     optionGroup.attr("display", visibility);
   }
-
+  
+  function handleBackClick() {
+    d3.event.stopPropagation();
+    let level = "";
+    if (options.parents.length === 1) {
+      level = "#svgNeighborhoodDD";
+    } else if (options.parents.length === 2) {
+      level = "#svgZipDD";
+    }
+    d3.select(level).remove();
+    options.parents.pop();
+  }
 }

@@ -1,3 +1,4 @@
+// RESET
 
 html, body, div, span, applet, object, iframe, 
 p, blockquote, pre,
@@ -42,13 +43,17 @@ table {
 	border-spacing: 0;
 }
 
+// SCSS
+
+body {
+  background-color: lightgray;
+}
 
 h1 {
   margin-left: 14px;
 }
 
 .body-content {
-
   height: 92vh;
   width: 100%;
   position: relative;
@@ -64,24 +69,26 @@ h1 {
   justify-content: space-between;;
 }
 
-
 .dropdown-container {
   margin-left: 8px;
   z-index: 2;
+  position: relative;
 }
 
-body {
-  background-color: lightgray;
+.boro-selector {
+  position: relative;
+  width: 200px;
 }
 
 
-.pie-container {
-  z-index: 3;
-  float: right;
-}
 
 #map {
   height: 92vh;
   width: 100%;
   z-index: 0;
+}
+
+.pie-container {
+  z-index: 3;
+  float: right;
 }

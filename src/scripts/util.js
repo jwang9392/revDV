@@ -1,3 +1,5 @@
+import {fetchZipData} from './api';
+
 export const locations = {
   "Manhattan": {
     "Central Harlem": ["10026", "10027", "10030", "10037", "10039"],
@@ -53,14 +55,9 @@ export const locations = {
   }
 }
 
-export const zipLatLong = {
-  "10001": [40.7537, -73.9992],
-  "10011": [40.7465, -74.0094],
-  "10018": [40.7553, -73.9933],
-  "10019": [40.7687, -73.9918],
-  "10020": [40.7606, -73.9823],
-  "10036": [40.7603, -73.9933]
-}
+export let zipLatLong = null;
+const zipData = fetchZipData();
+zipData.then(resp => zipLatLong = resp);
 
 export const dataParse = (data) => {
   const pieTreeData = {

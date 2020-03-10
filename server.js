@@ -24,7 +24,7 @@ app.get("/NYODQ/:zip", (request, response) => {
     'Accept': '*/*',
     'X-Socrata-Host': 'data.cityofnewyork.us',
     'Content-Type': 'application/json',
-    // 'X-App-Token': process.env.APP_TOKEN
+    'X-App-Token': process.env.APP_TOKEN
   }})
     .then(response => {
       return response.text();
@@ -36,21 +36,21 @@ app.get("/NYODQ/:zip", (request, response) => {
     });
 });
 
-app.get("/NYODQ/:zip", (request, response) => {
-  const url = `https://data.cityofnewyork.us/resource/yjxr-fw8i.json?$query=SELECT * WHERE zip = ${request.params.zip} LIMIT 50000`
-  fetch(url, {
-    headers: {
-      "X-App-Token": process.env.APP_TOKEN
-    }
-  })
-    .then(response => {
-      return response.text();
-    })
-    .then(body => {
-      let results = JSON.parse(body);
-      console.log(results);
-      response.send(results);
-    });
-});
+// app.get("/NYODQ/:zip", (request, response) => {
+//   const url = `https://data.cityofnewyork.us/resource/yjxr-fw8i.json?$query=SELECT * WHERE zip = ${request.params.zip} LIMIT 50000`
+//   fetch(url, {
+//     headers: {
+//       "X-App-Token": process.env.APP_TOKEN
+//     }
+//   })
+//     .then(response => {
+//       return response.text();
+//     })
+//     .then(body => {
+//       let results = JSON.parse(body);
+//       console.log(results);
+//       response.send(results);
+//     });
+// });
 
 app.listen(port, () => console.log(`Server running on ${port}`));
