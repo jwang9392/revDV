@@ -19,7 +19,7 @@ app.use(express.static(JS_SCRIPTS))
 
 
 app.get("/NYODQ/:zip", (request, response) => {
-  const url = `https://data.cityofnewyork.us/resource/yjxr-fw8i.csv?$query=SELECT bldgcl, fullval WHERE zip = ${request.params.zip} LIMIT 50000`
+  const url = `https://data.cityofnewyork.us/resource/yjxr-fw8i.json?$query=SELECT bldgcl, fullval WHERE zip = ${request.params.zip} LIMIT 50000`
   fetch(url, { headers: {
     'Accept': '*/*',
     'X-Socrata-Host': 'data.cityofnewyork.us',
