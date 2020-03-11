@@ -60,6 +60,7 @@ const zipData = fetchZipData();
 zipData.then(resp => zipLatLong = resp);
 
 export const dataParse = (data) => {
+  debugger
   const pieTreeData = {
     name: "zipcode",
     children: [
@@ -168,6 +169,7 @@ export const dataParse = (data) => {
   });
   
   return pieTreeData;
+  debugger
   // return (totalVal / totalCount);
 }
 
@@ -185,4 +187,3 @@ const bldgClassParse = (bldgClass, i, bldgParseObj) => {
     bldgParseObj[i][classType][bldgClass] = 1;
   }
 }
-
