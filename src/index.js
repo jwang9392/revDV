@@ -10,7 +10,7 @@ window.addEventListener("DOMContentLoaded", () => {
     dropdown.append("svg")
     .attr("id", "dropdownSVG")
     .attr("height", 500)
-    .attr("width", 320)
+    .attr("width", 400)
   
   const boroughs = Object.keys(locations);
   svgDropdown(boroughs);

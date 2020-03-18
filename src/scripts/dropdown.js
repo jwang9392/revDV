@@ -18,7 +18,7 @@ export const svgDropdown = (locality, parents = []) => {
   options.y= 0;
   options.optionHeight= 40;
   options.height= 40;
-  options.width= 270;
+  options.width= 280;
   options.hoverColor= "#0c56f5";
   options.hoverTextColor= "#fff";
   options.backgroundColor= "#fff";
@@ -86,6 +86,7 @@ export const svgDropdown = (locality, parents = []) => {
 
   selectField
     .append("rect")
+    .attr("x", "1")
     .attr("width", options.width)
     .attr("height", options.height)
     .attr("class", "option select-field")
@@ -119,14 +120,51 @@ export const svgDropdown = (locality, parents = []) => {
     .on("click", handleSelectClick);
 
   // back button
+
+  const backMessage = () => {
+    if (options.parents.length === 1) {
+      return "Boroughs"
+    } else if (options.parents.length === 2) {
+      return "Neighborhoods"
+    }
+  }
+  
   if (options.parents.length > 0) {
-    selectField
-      .append("rect")
-      .attr("id", "select-back-button")
-      .attr("fill", options.color)
-      .attr("width", options.height)
+    const backField = selectField.append("g")
+      .attr("id", "select-back-button");
+
+    backField.append("rect")
+      .attr("width", "110")
+      .attr("height", options.height)
+      .attr("x", options.width + 6)
+      .attr("fill", options.backgroundColor)
+      .style("stroke", "#a0a0a0")
+      .style("stroke-width", "1");
+
+    backField.append("text")
+      .text("Back to")
+      .attr("width", "110")
       .attr("height", options.height)
       .attr("x", options.width + 10)
+      .attr("y", options.height / 2 + options.fontSize / 3 - 8)
+      .attr("font-size", options.fontSize / 1.2)
+      .attr("fill", options.color)
+
+    backField.append("text")
+      .text(backMessage())
+      .attr("width", "110")
+      .attr("height", options.height)
+      .attr("x", options.width + 10)
+      .attr("y", options.height / 2 + options.fontSize / 3 + 7)
+      .attr("font-size", options.fontSize / 1.2)
+      .attr("fill", options.color)
+
+    backField
+      .append("rect")
+      .attr("width", "110")
+      .attr("height", options.height)
+      .attr("x", options.width + 10)
+      .style("fill", "transparent")
       .on("click", handleBackClick);    
   }
 
@@ -150,6 +188,7 @@ export const svgDropdown = (locality, parents = []) => {
     .append("rect")
     .attr("width", options.width)
     .attr("height", options.optionHeight)
+    // .attr("x", "1")            <----------- THE ALIGNMENT OF DROPDOWN AND ITS OPTIONS IS OFF BY 1 PX WHEN ZOOMING
     .attr("y", function (d, i) {
       return i * options.optionHeight;
     })
@@ -232,8 +271,8 @@ export const svgDropdown = (locality, parents = []) => {
 
   function handleOptionClick(d) {
     d3.event.stopPropagation();
-    selectedOption = d;
-    activeText.text(selectedOption)
+    // selectedOption = d;
+    // activeText.text(selectedOption)
     options.changeHandler.call(this, d);
     optionGroup.attr("display", "none");
   }
