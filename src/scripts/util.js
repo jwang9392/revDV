@@ -63,84 +63,72 @@ export const dataParse = (data) => {
   debugger
   const pieTreeData = {
     name: "zipcode",
+    // val: 0,
+    // count: 0,
     children: [
       {
         name: "$10m <", 
+        // val: 0,
+        // count: 0,
         children: []
       }, {
         name: "$1m < $10m",
+        // val: 0,
+        // count: 0,
         children: []
       }, {
         name: "$500k < $1m",
+        // val: 0,
+        // count: 0,
         children: []
       }, {
         name: "$200k to $500k",
+        // val: 0,
+        // count: 0,
         children: []
       }, {
         name: "< $200k",
+        // val: 0,
+        // count: 0,
         children: []
       }
     ]
   };
   // total avg calc for that zip code
-
-  // COMMENT IN WHEN CREATING TOTAL AVERAGES DISPLAY *********************
-  // let totalCount = 0;
-  // let totalVal = 0;
-
   // split into 5 price brackets
   // 1: 10mil +, 2: 1mil - 10mil, 3: 500k-9.999k, 4: 200-499k, 5: < 200k
-
   // EACH BRACKET ASSESSED VALUES AND COUNTS FOR AVERAGE *****************
-  // let bracket1Val = 0;
-  // let bracket2Val = 0;
-  // let bracket3Val = 0;
-  // let bracket4Val = 0;
-  // let bracket5Val = 0;
-  // let bracket1Ct = 0;
-  // let bracket2Ct = 0;
-  // let bracket3Ct = 0;
-  // let bracket4Ct = 0;
-  // let bracket5Ct = 0;
 
   let bracketBldgClass = [{},{},{},{},{}];
 
-  // data = JSON.parse(data);
   data.forEach(propertyObj => {
     let propVal = parseInt(propertyObj.fullval);
     let bldgClass = propertyObj.bldgcl;
     
     // total avg
-
-    // COMMENT IN WHEN CREATING TOTAL AVERAGES DISPLAY *********************
-    // totalVal = totalVal + propVal;
-    // totalCount++;
+    // pieTreeData.val = pieTreeData.val + propVal;
+    // pieTreeData.count++;
 
     // price brackets
     if (propVal >= 10000000) {
-      // bracket1Val += propVal;
-      // bracket1Ct += 1
-
+      // pieTreeData.children[0].val += propVal;
+      // pieTreeData.children[0].count += 1
       bldgClassParse(bldgClass, 0, bracketBldgClass)
     } else if (propVal < 10000000 && propVal >= 1000000) {
-      // bracket2Val += propVal;
-      // bracket2Ct += 1;
-
+      // pieTreeData.children[1].val += propVal;
+      // pieTreeData.children[1].count += 1;
       bldgClassParse(bldgClass, 1, bracketBldgClass)
     } else if (propVal < 1000000 && propVal >= 500000) {
-      // bracket3Val += propVal;
-      // bracket3Ct += 1;
-
+      // pieTreeData.children[2].val += propVal;
+      // pieTreeData.children[2].count += 1;
       bldgClassParse(bldgClass, 2, bracketBldgClass)
     } else if (propVal < 500000 && propVal >= 200000) {
-      // bracket4Val += propVal;
-      // bracket4Ct += 1;
-
+      // pieTreeData.children[3].val += propVal;
+      // pieTreeData.children[3].count += 1;
       bldgClassParse(bldgClass, 3, bracketBldgClass)
     } else if (propVal < 200000) {
-      // bracket5Val += propVal;
-      // bracket5Ct += 1;
-
+      // pieTreeData.children[4].val += propVal;
+      // pieTreeData.children[4].count += 1;
       bldgClassParse(bldgClass, 4, bracketBldgClass)
     }
   });
@@ -168,9 +156,8 @@ export const dataParse = (data) => {
     }
   });
   
-  return pieTreeData;
   debugger
-  // return (totalVal / totalCount);
+  return pieTreeData;
 }
 
 const bldgClassParse = (bldgClass, i, bldgParseObj) => {

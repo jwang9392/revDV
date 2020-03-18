@@ -43,7 +43,6 @@ export const svgDropdown = (locality, parents = []) => {
         options.parents.push(selection)
         selectionLocales = Object.keys(options.locations[boro]);
         svgDropdown(selectionLocales, options.parents)
-        // options.parents.pop();
       } else if (options.parents.length === 1) {
         let neighborhood = selection;
         options.parents.push(selection)
@@ -73,7 +72,15 @@ export const svgDropdown = (locality, parents = []) => {
     .append("g")
     .attr("font-family", options.fontFamily);
 
-  let selectedOption = options.locality[0];
+  let selectedOption = parentSize => {
+    if (!parentSize) {
+      return "Select a Borough";
+    } else if (parentSize === 1) {
+      return "Select a Neighborhood";
+    } else if (parentSize === 2) {
+      return "Select a Zip Code";
+    }
+  }
 
   const selectField = g.append("g");
 
@@ -88,7 +95,7 @@ export const svgDropdown = (locality, parents = []) => {
 
   const activeText = selectField
     .append("text")
-    .text(selectedOption)
+    .text(selectedOption(options.parents.length))
     .attr("x", options.padding)
     .attr("y", options.height / 2 + options.fontSize / 3)
     .attr("font-size", options.fontSize)
@@ -112,14 +119,16 @@ export const svgDropdown = (locality, parents = []) => {
     .on("click", handleSelectClick);
 
   // back button
-  selectField
-    .append("rect")
-    .attr("id", "select-back-button")
-    .attr("fill", options.color)
-    .attr("width", options.height)
-    .attr("height", options.height)
-    .attr("x", options.width + 10)
-    .on("click", handleBackClick);
+  if (options.parents.length > 0) {
+    selectField
+      .append("rect")
+      .attr("id", "select-back-button")
+      .attr("fill", options.color)
+      .attr("width", options.height)
+      .attr("height", options.height)
+      .attr("x", options.width + 10)
+      .on("click", handleBackClick);    
+  }
 
   // rendering options
   const optionGroup = g
@@ -145,7 +154,7 @@ export const svgDropdown = (locality, parents = []) => {
       return i * options.optionHeight;
     })
     .attr("class", "option")
-    .style("stroke", options.hoverColor)
+    .style("stroke", "#a0a0a0")
     .style("stroke-dasharray", (d, i) => {
       let stroke = [
         0,
@@ -238,6 +247,7 @@ export const svgDropdown = (locality, parents = []) => {
   function handleBackClick() {
     d3.event.stopPropagation();
     let level = "";
+
     if (options.parents.length === 1) {
       level = "#svgNeighborhoodDD";
     } else if (options.parents.length === 2) {
